@@ -19,5 +19,21 @@
 и других сервисов экосистемы Apache®.
 
 
+## Настройка источника, из которого будет устанавливаться провайдер
+
+```
+$ cat ~/.terraformrc 
+provider_installation {
+  network_mirror {
+    url = "https://terraform-mirror.yandexcloud.net/"
+    include = ["registry.terraform.io/*/*"]
+  }
+  direct {
+    exclude = ["registry.terraform.io/*/*"]
+  }
+}
+```
+
+
 ## Задачи:
-  1. cоздан новый backet в *Yandex Cloud Object Storage* с использованием *terraform* скрипта
+  1. cоздается новый backet в *Yandex Cloud Object Storage* с использованием *terraform* скрипта
