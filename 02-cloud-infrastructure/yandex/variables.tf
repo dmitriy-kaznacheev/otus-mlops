@@ -1,79 +1,79 @@
 variable "yc_token" {
-    type = string
-    description = "Yandex Cloud OAuth token"
+  type        = string
+  description = "Yandex Cloud OAuth token"
 }
 
 variable "yc_cloud" {
-    type = string
-    description = "Yandex Cloud ID"
+  type        = string
+  description = "Yandex Cloud ID"
 }
 
 variable "yc_folder" {
-    type = string
-    description = "Yandex Cloud Folder ID"
+  type        = string
+  description = "Yandex Cloud Folder ID"
 }
 
 variable "yc_zone" {
-    type = string
-    description = "Zone for Yandex Cloud resources"
+  type        = string
+  description = "Zone for Yandex Cloud resources"
 }
 
 variable "yc_service_account_name" {
-    type = string
-    description = "Name of the service account"
+  type        = string
+  description = "Name of the service account"
 }
 
 variable "yc_network_name" {
-    type = string
-    description = "Name of the network"
+  type        = string
+  description = "Name of the network"
 }
 
 variable "yc_subnet_name" {
-    type = string
-    description = "Name of the custom subnet"
+  type        = string
+  description = "Name of the custom subnet"
 }
 
 variable "yc_subnet_range" {
-    type = string
-    description = "CIDR block for the subnet"
+  type        = string
+  description = "CIDR block for the subnet"
 }
 
 variable "yc_nat_gateway_name" {
-  type = string
+  type        = string
   description = "Name of the NAT gateway"
 }
 
 variable "yc_route_table_name" {
-    type = string
-    description = "Name of the route table"
+  type        = string
+  description = "Name of the route table"
 }
 
 variable "yc_security_group_name" {
-    type = string
-    description = "Name of the security group"
+  type        = string
+  description = "Name of the security group"
 }
 
 variable "yc_bucket_name" {
-    type = string
-    description = "Name of the bucket"
+  type        = string
+  description = "Name of the bucket"
 }
 
 variable "public_key_path" {
-    type = string
-    description = "Path to the public key file"
+  type        = string
+  description = "Path to the public key file"
 }
 
 variable "private_key_path" {
-    type = string
-    description = "Path to the private key file"
+  type        = string
+  description = "Path to the private key file"
 }
 
 variable "yc_image_id" {
-    type = string
-    description = "ID of the image for the virtual machine"
+  type        = string
+  description = "ID of the image for the virtual machine"
 }
 
 variable "yc_instance_name" {
-    type = string
-    description = "Name of the virtual machine"
+  type        = string
+  description = "Name of the virtual machine"
 }
