@@ -36,4 +36,4 @@ provider_installation {
 
 
 ## Задачи:
-  1. cоздается новый backet в *Yandex Cloud Object Storage* с использованием *terraform* скрипта
+  1. cоздан новый backet в *Yandex Cloud Object Storage* с использованием *terraform* скрипта

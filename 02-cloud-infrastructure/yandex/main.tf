@@ -1,0 +1,108 @@
+#-- IAM ---------------------------------------------------------------------------------
+
+resource "yandex_iam_service_account" "sa" {
+    name = var.yc_service_account_name
+    description = "Service account for Yandex Data Processing cluster"
+}
+
+resource "yandex_resourcemanager_folder_iam_member" "sa_roles" {
+    for_each = toset([
+        "iam.serviceAccounts.user",
+        "vpc.user",
+        "compute.admin",
+        "storage.admin",
+        "storage.uploader",
+        "storage.viewer",
+        "storage.editor",
+        "dataproc.editor",
+        "dataproc.agent",
+        "mdb.dataproc.agent",
+    ])
+
+    folder_id = var.yc_folder
+    role = each.key
+    member = "serviceAccount:${yandex_iam_service_account.sa.id}"
+}
+
+resource "yandex_iam_service_account_static_access_key" "sa-static-key" {
+    service_account_id = yandex_iam_service_account.sa.id
+    description = "Static access key for object storage"
+}
+
+#-- netrwork ----------------------------------------------------------------------------
+
+resource "yandex_vpc_network" "network" {
+    name = var.yc_network_name
+}
+
+resource "yandex_vpc_subnet" "subnet" {
+    name = var.yc_subnet_name
+    zone = var.yc_zone
+    network_id = yandex_vpc_network.network.id
+    v4_cidr_blocks = [var.yc_subnet_range]
+    route_table_id = yandex_vpc_route_table.route_table.id
+}
+
+resource "yandex_vpc_gateway" "nat_gateway" {
+    name = var.yc_nat_gateway_name
+    shared_egress_gateway {}
+}
+
+resource "yandex_vpc_route_table" "route_table" {
+    name = var.yc_route_table_name
+    network_id = yandex_vpc_network.network.id
+
+    static_route {
+        destination_prefix = "0.0.0.0/0"
+        gateway_id = yandex_vpc_gateway.nat_gateway.id
+    }
+}
+
+resource "yandex_vpc_security_group" "security_group" {
+    name = var.yc_security_group_name
+    description = "Security group for Yandex Data Processing cluster"
+    network_id = yandex_vpc_network.network.id
+
+    ingress {
+        protocol = "ANY"
+        description = "Allow all incoming traffic"
+        v4_cidr_blocks = ["0.0.0.0/0"]
+    }
+
+    ingress {
+        protocol = "TCP"
+        description = "UI"
+        v4_cidr_blocks = ["0.0.0.0/0"]
+        port = 443
+    }
+
+    ingress {
+        protocol = "TCP"
+        description = "SSH"
+        v4_cidr_blocks = ["0.0.0.0/0"]
+        port = 22
+    }
+
+    ingress {
+        protocol = "TCP"
+        description = "Jupyter"
+        v4_cidr_blocks = ["0.0.0.0/0"]
+        port = 8888
+    }
+
+    egress {
+        protocol = "ANY"
+        description = "Allow all outgoing traffic"
+        v4_cidr_blocks = ["0.0.0.0/0"]
+    }
+}
+
+#--- storage ----------------------------------------------------------------------------
+
+resource "yandex_storage_bucket" "data_bucket" {
+    bucket = "${var.yc_bucket_name}-${var.yc_folder}"
+    access_key = yandex_iam_service_account_static_access_key.sa-static-key.access_key
+    secret_key = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
+    force_destroy = true
+}
+
