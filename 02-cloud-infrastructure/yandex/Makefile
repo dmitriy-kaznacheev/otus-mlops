@@ -9,6 +9,6 @@ apply:
 
 destroy:
 	terraform destroy -auto-approve
-clean: destroy
+clean: 
 	rm -rf .terraform
 	rm -f *.tfplan *.tfstate *.tfstate.backup *.tfstate.backup.* .terraform.lock.hcl

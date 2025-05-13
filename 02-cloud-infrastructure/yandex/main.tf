@@ -97,7 +97,7 @@ resource "yandex_vpc_security_group" "security_group" {
     }
 }
 
-#--- storage ----------------------------------------------------------------------------
+#--- storage (object) -------------------------------------------------------------------
 
 resource "yandex_storage_bucket" "data_bucket" {
     bucket = "${var.yc_bucket_name}-${var.yc_folder}"
@@ -106,3 +106,55 @@ resource "yandex_storage_bucket" "data_bucket" {
     force_destroy = true
 }
 
+#--- proxy (compute) --------------------------------------------------------------------
+
+resource "yandex_compute_disk" "boot_disk" {
+    name = "boot-disk"
+    zone = var.yc_zone
+    image_id = var.yc_image_id
+    size = 30
+}
+
+resource "yandex_compute_instance" "proxy" {
+    name = var.yc_instance_name
+    allow_stopping_for_update = true
+    platform_id = "standard-v3"
+    zone = var.yc_zone
+    service_account_id = yandex_iam_service_account.sa.id
+
+    metadata = {
+        ssh-keys = "ubuntu:${file(var.public_key_path)}"
+    }
+
+    scheduling_policy {
+        preemptible = true
+    }
+
+    resources {
+        cores = 2
+        memory = 16
+    }
+
+    boot_disk {
+        disk_id = yandex_compute_disk.boot_disk.id
+    }
+
+    network_interface {
+        subnet_id = yandex_vpc_subnet.subnet.id
+        nat = true
+    }
+
+    metadata_options {
+        gce_http_endpoint = 1
+        gce_http_token = 1
+    }
+
+    connection {
+        type = "ssh"
+        user = "ubuntu"
+        private_key = file(var.private_key_path)
+        host = self.network_interface[0].nat_ip_address
+    }
+
+    depends_on = [yandex_storage_bucket.data_bucket]
+}

@@ -58,3 +58,22 @@ variable "yc_bucket_name" {
     description = "Name of the bucket"
 }
 
+variable "public_key_path" {
+    type = string
+    description = "Path to the public key file"
+}
+
+variable "private_key_path" {
+    type = string
+    description = "Path to the private key file"
+}
+
+variable "yc_image_id" {
+    type = string
+    description = "ID of the image for the virtual machine"
+}
+
+variable "yc_instance_name" {
+    type = string
+    description = "Name of the virtual machine"
+}
