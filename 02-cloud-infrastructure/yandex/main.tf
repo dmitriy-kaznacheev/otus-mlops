@@ -100,7 +100,7 @@ resource "yandex_vpc_security_group" "security_group" {
 #--- storage (object) -------------------------------------------------------------------
 
 resource "yandex_storage_bucket" "data_bucket" {
-  bucket        = "${var.yc_bucket_name}-${var.yc_folder}"
+  bucket        = "${var.yc_bucket_name}"
   access_key    = yandex_iam_service_account_static_access_key.sa-static-key.access_key
   secret_key    = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
   force_destroy = true
@@ -124,6 +124,12 @@ resource "yandex_compute_instance" "proxy" {
 
   metadata = {
     ssh-keys = "ubuntu:${file(var.public_key_path)}"
+    user-data = templatefile("${path.root}/scripts/infrastructure_setting.sh", {
+      access_key = yandex_iam_service_account_static_access_key.sa-static-key.access_key
+      secret_key = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
+      dst_bucket = yandex_storage_bucket.data_bucket.bucket
+      src_bucket = "otus-mlops-source-data"
+    })
   }
 
   scheduling_policy {
