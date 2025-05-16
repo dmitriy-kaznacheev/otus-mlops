@@ -58,6 +58,42 @@ variable "yc_bucket_name" {
   description = "Name of the bucket"
 }
 
+variable "yc_dataproc_cluster_name" {
+  type        = string
+  description = "Name of the Dataproc cluster"
+}
+
+variable "yc_dataproc_version" {
+  type        = string
+  description = "Version of Dataproc"
+}
+
+variable "dataproc_master_resources" {
+  type = object({
+    resource_preset_id = string
+    disk_type_id       = string
+    disk_size          = number
+  })
+  default = {
+    resource_preset_id = "s3-c2-m8"
+    disk_type_id       = "network-hdd"
+    disk_size          = 40
+  }
+}
+
+variable "dataproc_data_resources" {
+  type = object({
+    resource_preset_id = string
+    disk_type_id       = string
+    disk_size          = number
+  })
+  default = {
+    resource_preset_id = "s3-c4-m16"
+    disk_type_id       = "network-hdd"
+    disk_size          = 128
+  }
+}
+
 variable "public_key_path" {
   type        = string
   description = "Path to the public key file"
