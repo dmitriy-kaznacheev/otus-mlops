@@ -68,7 +68,7 @@ resource "yandex_vpc_security_group" "security_group" {
     description    = "Allow all incoming traffic"
     v4_cidr_blocks = ["0.0.0.0/0"]
   }
-  
+
   egress {
     protocol       = "ANY"
     description    = "Allow all outgoing traffic"
@@ -158,10 +158,15 @@ resource "yandex_compute_instance" "proxy" {
   metadata = {
     ssh-keys = "ubuntu:${file(var.public_key_path)}"
     user-data = templatefile("${path.root}/scripts/infrastructure_setting.sh", {
-      access_key = yandex_iam_service_account_static_access_key.sa-static-key.access_key
-      secret_key = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
-      dst_bucket = yandex_storage_bucket.data_bucket.bucket
-      src_bucket = "otus-mlops-source-data"
+      access_key        = yandex_iam_service_account_static_access_key.sa-static-key.access_key
+      secret_key        = yandex_iam_service_account_static_access_key.sa-static-key.secret_key
+      dst_bucket        = yandex_storage_bucket.data_bucket.bucket
+      src_bucket        = var.yc_public_bucket_name
+      token             = var.yc_token
+      cloud             = var.yc_cloud
+      folder            = var.yc_folder
+      ssh_private_key   = file(var.private_key_path)
+      hdfs_dir          = var.hdfs_directory_name
     })
   }
 

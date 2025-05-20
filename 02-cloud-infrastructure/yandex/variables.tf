@@ -58,6 +58,11 @@ variable "yc_bucket_name" {
   description = "Name of the bucket"
 }
 
+variable "yc_public_bucket_name" {
+  type        = string
+  description = "Name of the public bucket"
+}
+
 variable "yc_dataproc_cluster_name" {
   type        = string
   description = "Name of the Dataproc cluster"
@@ -68,6 +73,10 @@ variable "yc_dataproc_version" {
   description = "Version of Dataproc"
 }
 
+variable "hdfs_directory_name" {
+  type        = string
+  description = "hdfs directory name for the dataset"
+}
 variable "dataproc_master_resources" {
   type = object({
     resource_preset_id = string
