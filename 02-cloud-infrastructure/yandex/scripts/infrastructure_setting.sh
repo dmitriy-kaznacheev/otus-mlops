@@ -148,3 +148,13 @@ EOF
 chmod +x $HOME/scripts/copy2hdfs.sh
 scp -i $PKEY_FILE -o StrictHostKeyChecking=no $HOME/scripts/copy2hdfs.sh $USER@$MASTER_FQDN:$HOME/
 ssh -i $PKEY_FILE -o StrictHostKeyChecking=no $USER@MASTER_FQDN "chmod +x ~/copy2hdfs.sh"
+
+#--- скрипт для удаления spark-кластер ------------------------------------------------------------
+
+INFO "create a destroy_spark.sh script"
+mkdir -p $HOME/scripts
+cat <<EOF > $HOME/scripts/destroy_spark.sh
+#!/bin/bash
+EOF
+
+chmod +x $HOME/scripts/destroy_spark.sh
