@@ -7,3 +7,6 @@
 
 ## [02-cloud-infrastructure](02-cloud-infrastructure)
 Настройка облачной инфраструктуры для проекта по определению мошеннических транзакций
+
+## [03-dataset-quality-analysis](03-dataset-quality-analysis)
+Анализ качества и очистка датасета мошеннических финансовых операций
