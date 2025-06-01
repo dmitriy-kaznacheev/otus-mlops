@@ -128,3 +128,35 @@ yc dataproc cluster delete mlops-dataproc-cluster
 EOF
 
 chmod +x $HOME/scripts/destroy_spark.sh
+
+#--- скрипт для очистки данных и сохранения в бакет -----------------------------------------------
+
+INFO "create dataset_cleanup.py script"
+echo '${cleanup_script}' > $HOME/scripts/dataset_cleanup.py
+sed -i "s/{{ s3_bucket }}/${dst_bucket}/g" $HOME/scripts/dataset_cleanup.py
+
+chmod +x $HOME/scripts/dataset_cleanup.py
+scp -i $PKEY_FILE -o StrictHostKeyChecking=no $HOME/scripts/dataset_cleanup.py $USER@$MASTER_FQDN:$HOME/
+ssh -i $PKEY_FILE -o StrictHostKeyChecking=no $USER@MASTER_FQDN "chmod +x ~/dataset_cleanup.py"
+
+INFO "findspark is installed for the dataset_cleanup.py script"
+ssh -i $PKEY_FILE -o StrictHostKeyChecking=no $USER@MASTER_FQDN "pip install findspark"
+
+#--- запуск скриптов ------------------------------------------------------------------------------
+
+INFO "start data upload to the HDFS..."
+ssh -i $PKEY_FILE -o StrictHostKeyChecking=no $USER@MASTER_FQDN "~/copy2hdfs.sh"
+
+INFO "start cleanup of the dataset and store it to the bucket..."
+ssh -i $PKEY_FILE -o StrictHostKeyChecking=no $USER@MASTER_FQDN "~/dataset_cleanup.py"
+
+INFO "execution completed"
+
+#--- запуск jupyter notebook ----------------------------------------------------------------------
+
+# INFO "jupyter notebook running on port 8888"
+# jupyter notebook --no-browser --ip 0.0.0.0 --port 8888
+
+#--- настройка завершена --------------------------------------------------------------------------
+
+INFO "proxy node configuration is complete"
