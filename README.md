@@ -10,3 +10,6 @@
 
 ## [03-dataset-quality-analysis](03-dataset-quality-analysis)
 Анализ качества и очистка датасета мошеннических финансовых операций
+
+## [04-feature-store](04-feature-store)
+Работа с Feast
