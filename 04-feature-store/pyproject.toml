@@ -1,0 +1,12 @@
+[project]
+name = "04-feature-store"
+version = "0.1.0"
+description = "eature store"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "feast==0.40.1",
+    "pandas==2.2.3",
+    "jupyter==1.1.1",
+    "lab==8.2",
+]
