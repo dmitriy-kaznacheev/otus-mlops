@@ -1,0 +1,14 @@
+[project]
+name = "04-feature-store"
+version = "0.1.0"
+description = "Feature store"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "feast==0.49.0",
+    "ipykernel==6.29.5",
+    "jupyter==1.1.1",
+    "lab==8.4",
+    "pandas==2.3.0",
+    "protobuf==5.29.0",
+]
