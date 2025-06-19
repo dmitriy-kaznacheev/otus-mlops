@@ -42,6 +42,7 @@
       ```
       $ make upload_src
       $ make upload_dags
+      $ make upload_data
       ```
       или одной командой
       ```
