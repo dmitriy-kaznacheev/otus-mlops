@@ -58,6 +58,7 @@ YC_SA_CONNECTION = Connection(
     },
 )
 
+
 # Проверка наличия подключений в Airflow
 # Если подключения отсутствуют, то они добавляются
 # и сохраняются в базе данных Airflow
@@ -100,7 +101,7 @@ def run_setup_connections(**kwargs): # pylint: disable=unused-argument
 # Настройки DAG
 with DAG(
     dag_id="data_pipeline",
-    start_date=datetime(year=2025, month=6, day=19),
+    start_date=datetime(year=2025, month=6, day=20),
     schedule_interval="@daily",
     catchup=False
 ) as dag:
