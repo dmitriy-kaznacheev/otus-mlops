@@ -21,3 +21,7 @@ upload_data:
 
 airflow_mon:
 	yc logging read --group-name=default --follow
+
+git_push_secrets:
+	$(info Pushing secrets to github...)
+	python3 utils/push_secrets_to_github_repo.py

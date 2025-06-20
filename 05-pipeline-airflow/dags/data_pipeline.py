@@ -4,7 +4,7 @@ Description: DAG for processing data with Dataproc and PySpark.
 """
 
 import uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.settings import Session
@@ -100,8 +100,8 @@ def run_setup_connections(**kwargs): # pylint: disable=unused-argument
 # Настройки DAG
 with DAG(
     dag_id="data_pipeline",
-    start_date=datetime(year=2025, month=6, day=18),
-    schedule_interval=timedelta(minutes=60),
+    start_date=datetime(year=2025, month=6, day=19),
+    schedule_interval="@daily",
     catchup=False
 ) as dag:
     # Задача для создания подключений
