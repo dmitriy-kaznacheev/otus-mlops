@@ -11,5 +11,8 @@
 ## [03-dataset-quality-analysis](03-dataset-quality-analysis)
 Анализ качества и очистка датасета мошеннических финансовых операций
 
+## [04-feature-store](04-feature-store)
+Работа с Feast
+
 ## [05-pipeline-airflow](05-pipeline-airflow)
 Периодический запуск процедуры очистки датасета мошеннических финансовых транзакций
