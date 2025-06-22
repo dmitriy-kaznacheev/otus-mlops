@@ -13,3 +13,6 @@
 
 ## [04-feature-store](04-feature-store)
 Работа с Feast
+
+## [05-pipeline-airflow](05-pipeline-airflow)
+Периодический запуск процедуры очистки датасета мошеннических финансовых транзакций
